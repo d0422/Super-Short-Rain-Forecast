@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import mapper from "./xymapper.json";
 export default function App() {
   const [ok, setOk] = useState(true);
+  const [data, setData] = useState([]);
   const getLocation = async () => {
     const { granted } = await Location.requestForegroundPermissionsAsync();
     if (!granted) {
@@ -26,17 +27,24 @@ export default function App() {
     const x = mapper[path][1];
     console.log(x, y);
     const url = `https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtFcst?serviceKey=${API_KEY}&pageNo=1&numOfRows=1000&dataType=JSON&base_date=20220807&base_time=0630&nx=${x}&ny=${y}`;
-    console.log(url);
-    const response = await fetch(url);
-    const json = await response.json();
-    console.log(json);
+    fetch(url)
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (myjson) {
+        console.log(JSON.stringify(myjson));
+      })
+      .catch(() => {
+        console.log("오류남ㅋㅋ");
+        console.log(url);
+      });
+    setData(json.body.items.item);
   };
-  useEffect(() => {
-    getLocation();
-  }, []);
+
+  getLocation();
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+      <Text></Text>
       <StatusBar style="auto" />
     </View>
   );
