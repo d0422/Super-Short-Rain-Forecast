@@ -4,7 +4,13 @@ import * as Location from "expo-location";
 import { API_KEY } from "./api_key";
 import { useState, useEffect } from "react";
 import mapper from "./xymapper.json";
+import axios from "axios";
 export default function App() {
+  var now = new Date();
+  today =
+    String(now.getFullYear()) +
+    String(now.getMonth() + 1).padStart(2, "0") +
+    String(now.getDate()).padStart(2, "0");
   const [ok, setOk] = useState(true);
   const [data, setData] = useState([]);
   const getLocation = async () => {
@@ -25,20 +31,17 @@ export default function App() {
     path = location[0].region.concat(location[0].district);
     const y = mapper[path][0];
     const x = mapper[path][1];
-    console.log(x, y);
-    const url = `https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtFcst?serviceKey=${API_KEY}&pageNo=1&numOfRows=1000&dataType=JSON&base_date=20220807&base_time=0630&nx=${x}&ny=${y}`;
-    fetch(url)
-      .then(function (response) {
-        return response.json();
-      })
-      .then(function (myjson) {
-        console.log(JSON.stringify(myjson));
-      })
+    const url = `https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtFcst?serviceKey=${API_KEY}&pageNo=1&numOfRows=1000&dataType=JSON&base_date=${today}&base_time=0630&nx=${x}&ny=${y}`;
+    axios
+      .get(url)
+      .then((result) => setData(result.data.response.body.items.item))
       .catch(() => {
-        console.log("오류남ㅋㅋ");
-        console.log(url);
+        axios
+          .get(
+            `http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtFcst?serviceKey=${API_KEY}&pageNo=1&numOfRows=1000&dataType=JSON&base_date=${today}&base_time=0630&nx=${x}&ny=${y}`
+          )
+          .then((result) => setData(result.data.response.body.items.item));
       });
-    setData(json.body.items.item);
   };
 
   getLocation();
