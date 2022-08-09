@@ -19,6 +19,7 @@ export default function App() {
   const [loaded] = useFonts({
     GmarketSansTTFBold: require("./assets/fonts/GmarketSansTTFBold.ttf"),
     GmarketSansTTFMedium: require("./assets/fonts/GmarketSansTTFMedium.ttf"),
+    GmarketSansTTFLight: require("./assets/fonts/GmarketSansTTFLight.ttf"),
   });
   // 폰트 불러오기
 
@@ -83,8 +84,20 @@ export default function App() {
         {result.map((one) => (
           <View key={one.time} style={styles.time}>
             <View style={styles.hourcontainer}>
-              <Text style={styles.hour}>{getDisplayTime(one.time)}</Text>
-              <Text>{one.T1H}</Text>
+              <View style={{ alignItems: "flex-end" }}>
+                <Text style={styles.hour}>{getDisplayTime(one.time)}</Text>
+              </View>
+              <View
+                style={{
+                  flexDirection: "row",
+                  marginTop: 20,
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Text style={styles.temperture}>{one.T1H}</Text>
+                <Text style={styles.dossi}>℃</Text>
+              </View>
               <Weather one={one}></Weather>
             </View>
           </View>
@@ -98,16 +111,29 @@ const styles = StyleSheet.create({
     backgroundColor: "#091F43",
     flex: 1,
   },
-  text: {},
+  temperture: {
+    fontFamily: "GmarketSansTTFBold",
+    fontSize: 80,
+  },
+  dossi: {
+    fontFamily: "GmarketSansTTFMedium",
+    fontSize: 30,
+  },
   location: {
     alignItems: "center",
     justifyContent: "center",
-    flex: 0.5,
+    flex: 0.4,
     fontSize: 30,
   },
   hour: {
     fontFamily: "GmarketSansTTFBold",
-    fontSize: 40,
+    fontSize: 20,
+    backgroundColor: "#FF8C03",
+    color: "white",
+    padding: 10,
+    borderRadius: 15,
+    width: 65,
+    textAlign: "center",
   },
   hours: {
     flex: 2,
