@@ -18,6 +18,9 @@ export default function HourlyWeather(data) {
         t[i.fcstDate + i.fcstTime].SKY = i.fcstValue;
       } else if (i.category === "PTY") {
         t[i.fcstDate + i.fcstTime].PTY = i.fcstValue;
+      } else if (i.category === "REH") {
+        //습도
+        t[i.fcstDate + i.fcstTime].REH = i.fcstValue;
       }
     } else {
       t[i.fcstDate + i.fcstTime] = {};
@@ -35,6 +38,9 @@ export default function HourlyWeather(data) {
         t[i.fcstDate + i.fcstTime].SKY = i.fcstValue;
       } else if (i.category === "PTY") {
         t[i.fcstDate + i.fcstTime].PTY = i.fcstValue;
+      } else if (i.category === "REH") {
+        //습도
+        t[i.fcstDate + i.fcstTime].REH = i.fcstValue;
       }
     }
   });

@@ -91,7 +91,6 @@ export default function App() {
                 style={{
                   flexDirection: "row",
                   marginTop: 20,
-                  alignItems: "center",
                   justifyContent: "center",
                 }}
               >
