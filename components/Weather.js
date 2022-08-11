@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
   comments: {
     marginTop: 10,
     fontFamily: "GmarketSansTTFLight",
-    fontSize: 30,
+    fontSize: 18,
   },
 });
 export default Weather;

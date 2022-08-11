@@ -1,5 +1,12 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, ScrollView, Dimensions } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  Dimensions,
+  TouchableOpacity,
+} from "react-native";
 import * as Location from "expo-location";
 import { API_KEY } from "./api_key";
 import { useState, useEffect } from "react";
@@ -10,12 +17,13 @@ import Weather from "./components/Weather";
 import getTime from "./functions/getTime";
 import getToday from "./functions/getToday";
 import HourlyWeather from "./functions/HourlyWeather";
-
+import { Ionicons } from "@expo/vector-icons";
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 export default function App() {
   const [location, setLocation] = useState(""); //장소
   const [ok, setOk] = useState(true);
   const [data, setData] = useState([]);
+  const [isLoading, setLoading] = useState(true);
   const [loaded] = useFonts({
     GmarketSansTTFBold: require("./assets/fonts/GmarketSansTTFBold.ttf"),
     GmarketSansTTFMedium: require("./assets/fonts/GmarketSansTTFMedium.ttf"),
@@ -56,17 +64,21 @@ export default function App() {
       .catch(() => {
         console.log("오류");
       });
+    setLoading(false);
   };
   useEffect(() => {
     getLocation();
   }, []);
-
   const result = HourlyWeather(data);
   console.log(result);
   if (!loaded) {
     return <StatusBar></StatusBar>;
   }
-  return (
+  return isLoading ? (
+    <View style={styles.loadingcontainer}>
+      <Text style={styles.loading}>로딩중...</Text>
+    </View>
+  ) : (
     <View style={styles.container}>
       <View style={styles.location}>
         <Text
@@ -79,7 +91,17 @@ export default function App() {
           {location}
         </Text>
       </View>
-      <StatusBar style="auto" />
+      <StatusBar style="white" />
+      <TouchableOpacity
+        style={styles.reload}
+        onPress={() => {
+          setLoading(true);
+          getLocation();
+        }}
+      >
+        <Ionicons name="reload" size={30} color="white" />
+      </TouchableOpacity>
+
       <ScrollView style={styles.hours} horizontal pagingEnabled>
         {result.map((one) => (
           <View key={one.time} style={styles.time}>
@@ -106,6 +128,17 @@ export default function App() {
   );
 }
 const styles = StyleSheet.create({
+  loadingcontainer: {
+    backgroundColor: "#091F43",
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  loading: {
+    fontFamily: "GmarketSansTTFBold",
+    fontSize: 100,
+    color: "white",
+  },
   container: {
     backgroundColor: "#091F43",
     flex: 1,
@@ -147,5 +180,9 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: 25,
     padding: 30,
+  },
+  reload: {
+    alignItems: "flex-end",
+    marginRight: 22,
   },
 });

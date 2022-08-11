@@ -8,7 +8,7 @@ export default function getComment(one, badnum) {
   }
   if (one.PTY == "1" || one.PTY == "5" || rain < 8.5) {
     if (comment.length > 0) {
-      comment += " 글고 ";
+      comment += "\n아, 그리고 ";
     }
     comment += "우산 챙기세요.";
   } else if (rain >= 8.5 && rain < 15) {
