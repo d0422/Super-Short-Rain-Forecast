@@ -3,8 +3,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { StyleSheet, Text, View, ScrollView, Dimensions } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
-import getWeather from "../functions/getWeather";
-import getComment from "../functions/getComment";
+import getWeather from "../../functions/getWeather";
+import getComment from "../../functions/getComment";
 const Weather = ({ one }) => {
   const weather = getWeather(one);
   const badnum = Math.floor(
