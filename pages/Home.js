@@ -4,7 +4,6 @@ import {
   Text,
   View,
   ScrollView,
-  Dimensions,
   TouchableOpacity,
 } from "react-native";
 import * as Location from "expo-location";
@@ -18,7 +17,8 @@ import getTime from "../functions/getTime";
 import getToday from "../functions/getToday";
 import HourlyWeather from "../functions/HourlyWeather";
 import { Ionicons } from "@expo/vector-icons";
-const { width: SCREEN_WIDTH } = Dimensions.get("window");
+import style from "./components/style";
+
 export default function Home({ navigation }) {
   const [location, setLocation] = useState(""); //장소
   const [ok, setOk] = useState(true);
@@ -53,6 +53,7 @@ export default function Home({ navigation }) {
     );
     setLocation(location[0].region.concat(" " + location[0].district));
     path = location[0].region.concat(location[0].district);
+    console.log(path);
     const x = mapper[path][0];
     const y = mapper[path][1];
     const url = `http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtFcst?serviceKey=${API_KEY}&pageNo=1&numOfRows=1000&dataType=JSON&base_date=${today}&base_time=${time}&nx=${x}&ny=${y}`;
@@ -60,8 +61,8 @@ export default function Home({ navigation }) {
     axios
       .get(url)
       .then((result) => setData(result.data.response.body.items.item))
-      .catch(() => {
-        console.log("오류");
+      .catch((err) => {
+        console.error(err);
       });
     setLoading(false);
   };
@@ -79,15 +80,7 @@ export default function Home({ navigation }) {
   ) : (
     <View style={styles.container}>
       <View style={styles.location}>
-        <Text
-          style={{
-            fontFamily: "GmarketSansTTFMedium",
-            fontSize: 40,
-            color: "white",
-          }}
-        >
-          {location}
-        </Text>
+        <Text style={styles.locationtext}>{location}</Text>
       </View>
       <StatusBar style="white" />
       <View style={styles.reload}>
@@ -107,7 +100,6 @@ export default function Home({ navigation }) {
           <Ionicons name="reload" size={30} color="white" />
         </TouchableOpacity>
       </View>
-
       <ScrollView style={styles.hours} horizontal pagingEnabled>
         {result.map((one) => (
           <View key={one.time} style={styles.time}>
@@ -133,63 +125,4 @@ export default function Home({ navigation }) {
     </View>
   );
 }
-const styles = StyleSheet.create({
-  loadingcontainer: {
-    backgroundColor: "#091F43",
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  loading: {
-    fontFamily: "GmarketSansTTFBold",
-    fontSize: 100,
-    color: "white",
-  },
-  container: {
-    backgroundColor: "#091F43",
-    flex: 1,
-  },
-  temperture: {
-    fontFamily: "GmarketSansTTFBold",
-    fontSize: 80,
-  },
-  dossi: {
-    fontFamily: "GmarketSansTTFMedium",
-    fontSize: 30,
-  },
-  location: {
-    alignItems: "center",
-    justifyContent: "center",
-    flex: 0.4,
-    fontSize: 30,
-  },
-  hour: {
-    fontFamily: "GmarketSansTTFBold",
-    fontSize: 20,
-    backgroundColor: "#FF8C03",
-    color: "white",
-    padding: 10,
-    borderRadius: 15,
-    width: 65,
-    textAlign: "center",
-  },
-  hours: {
-    flex: 2,
-  },
-  time: {
-    width: SCREEN_WIDTH,
-    fontSize: 20,
-  },
-  hourcontainer: {
-    flex: 1,
-    margin: 20,
-    backgroundColor: "white",
-    borderRadius: 25,
-    padding: 30,
-  },
-  reload: {
-    flexDirection: "row",
-    justifyContent: "flex-end",
-    marginRight: 22,
-  },
-});
+const styles = StyleSheet.create(style);
