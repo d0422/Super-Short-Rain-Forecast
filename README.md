@@ -5,6 +5,6 @@
 ## 현재 디자인
 
 <div>
-<img src="./assets/1.jpg" width="200px" align="left"/>
-<img src="./assets/2.jpg" width="200px" align="right"/>
+<img src="./assets/1.jpg" width="200px"/>
+<img src="./assets/2.jpg" width="200px" />
 </div>
