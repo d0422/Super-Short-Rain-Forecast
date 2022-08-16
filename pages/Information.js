@@ -3,6 +3,7 @@ import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
 import style from "./components/style";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import * as Linking from "expo-linking";
+
 const Information = ({ navigation }) => {
   const link = (t) => {
     if (t === "기상청") {

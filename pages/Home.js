@@ -6,6 +6,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
 import * as Location from "expo-location";
 import { API_KEY } from "../assets/api_key";
 import { useState, useEffect } from "react";
@@ -18,7 +19,9 @@ import getToday from "../functions/getToday";
 import HourlyWeather from "../functions/HourlyWeather";
 import { Ionicons } from "@expo/vector-icons";
 import style from "./components/style";
-
+import { FontAwesome } from "@expo/vector-icons";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { LocationState } from "./components/Atom";
 export default function Home({ navigation }) {
   const [location, setLocation] = useState(""); //장소
   const [ok, setOk] = useState(true);
@@ -29,6 +32,8 @@ export default function Home({ navigation }) {
     GmarketSansTTFMedium: require("../assets/fonts/GmarketSansTTFMedium.ttf"),
     GmarketSansTTFLight: require("../assets/fonts/GmarketSansTTFLight.ttf"),
   });
+  const LS = useRecoilValue(LocationState);
+  const setLS = useSetRecoilState(LocationState);
   // 폰트 불러오기
   const today = getToday();
   const time = getTime();
@@ -37,6 +42,7 @@ export default function Home({ navigation }) {
     return result;
   }
   const getLocation = async () => {
+    setLoading(true);
     const { granted } = await Location.requestForegroundPermissionsAsync();
     if (!granted) {
       setOk(false);
@@ -51,8 +57,14 @@ export default function Home({ navigation }) {
       },
       { useGoogleMaps: false }
     );
-    setLocation(location[0].region.concat(" " + location[0].district));
-    path = location[0].region.concat(location[0].district);
+    if (LS) {
+      setLocation(LS);
+      const temp = LS.split(" ");
+      path = temp[0] + temp[1];
+    } else {
+      setLocation(location[0].region.concat(" " + location[0].district));
+      path = location[0].region.concat(location[0].district);
+    }
     console.log(path);
     const x = mapper[path][0];
     const y = mapper[path][1];
@@ -68,7 +80,7 @@ export default function Home({ navigation }) {
   };
   useEffect(() => {
     getLocation();
-  }, []);
+  }, [LS]);
   const result = HourlyWeather(data);
   if (!loaded) {
     return <StatusBar></StatusBar>;
@@ -80,6 +92,15 @@ export default function Home({ navigation }) {
   ) : (
     <View style={styles.container}>
       <View style={styles.location}>
+        <TouchableOpacity
+          style={styles.change}
+          onPress={() => {
+            navigation.navigate("SetLocation");
+          }}
+        >
+          <FontAwesome name="exchange" size={24} color="white" />
+        </TouchableOpacity>
+
         <Text style={styles.locationtext}>{location}</Text>
       </View>
       <StatusBar style="white" />
@@ -98,6 +119,13 @@ export default function Home({ navigation }) {
           }}
         >
           <Ionicons name="reload" size={30} color="white" />
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            setLS("");
+          }}
+        >
+          <MaterialIcons name="location-pin" size={30} color="white" />
         </TouchableOpacity>
       </View>
       <ScrollView style={styles.hours} horizontal pagingEnabled>

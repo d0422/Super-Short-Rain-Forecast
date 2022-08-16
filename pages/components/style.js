@@ -27,6 +27,7 @@ export default {
   location: {
     alignItems: "center",
     justifyContent: "center",
+    flexDirection: "row",
     flex: 0.4,
     fontSize: 30,
   },
@@ -83,5 +84,24 @@ export default {
     fontFamily: "GmarketSansTTFLight",
     fontSize: 20,
     marginLeft: 5,
+  },
+  change: {
+    transform: [{ rotate: "90deg" }],
+    borderRadius: 10,
+    backgroundColor: "#FF1E42",
+    padding: 10,
+    marginRight: 5,
+  },
+  si: {
+    flexDirection: "row",
+    backgroundColor: "white",
+    borderRadius: 10,
+    padding: 10,
+    justifyContent: "center",
+    margin: 5,
+  },
+  sitext: {
+    fontFamily: "GmarketSansTTFLight",
+    fontSize: 30,
   },
 };
