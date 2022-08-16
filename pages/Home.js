@@ -23,18 +23,18 @@ import { FontAwesome } from "@expo/vector-icons";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { LocationState } from "./components/Atom";
 export default function Home({ navigation }) {
-  const [location, setLocation] = useState(""); //장소
-  const [ok, setOk] = useState(true);
+  const [location, setLocation] = useState(""); //장소 받아오기
+  const [granted, setgranted] = useState(true); // 위치 권한 받아오기
   const [data, setData] = useState([]);
-  const [isLoading, setLoading] = useState(true);
-  const [loaded] = useFonts({
+  const [isDataLoading, setDataLoading] = useState(true);
+  const [fontLoaded] = useFonts({
     GmarketSansTTFBold: require("../assets/fonts/GmarketSansTTFBold.ttf"),
     GmarketSansTTFMedium: require("../assets/fonts/GmarketSansTTFMedium.ttf"),
     GmarketSansTTFLight: require("../assets/fonts/GmarketSansTTFLight.ttf"),
-  });
+  }); // 폰트 불러오기
   const LS = useRecoilValue(LocationState);
+  // recoil LocationState의 줄임말
   const setLS = useSetRecoilState(LocationState);
-  // 폰트 불러오기
   const today = getToday();
   const time = getTime();
   function getDisplayTime(string) {
@@ -42,10 +42,10 @@ export default function Home({ navigation }) {
     return result;
   }
   const getLocation = async () => {
-    setLoading(true);
+    setDataLoading(true);
     const { granted } = await Location.requestForegroundPermissionsAsync();
     if (!granted) {
-      setOk(false);
+      setgranted(false);
     }
     const {
       coords: { latitude, longitude },
@@ -60,6 +60,7 @@ export default function Home({ navigation }) {
     if (LS) {
       setLocation(LS);
       const temp = LS.split(" ");
+      // ~시 ~동을 시와 동으로 나눠서 공백없이 이어붙임
       path = temp[0] + temp[1];
     } else {
       setLocation(location[0].region.concat(" " + location[0].district));
@@ -76,16 +77,18 @@ export default function Home({ navigation }) {
       .catch((err) => {
         console.error(err);
       });
-    setLoading(false);
+    setDataLoading(false);
   };
   useEffect(() => {
     getLocation();
   }, [LS]);
-  const result = HourlyWeather(data);
-  if (!loaded) {
+  const result = HourlyWeather(data); // 시간별 데이터 변환
+  // 폰트가 로딩되지 않는 경우
+  if (!fontLoaded) {
     return <StatusBar></StatusBar>;
   }
-  return isLoading ? (
+  // 폰트 로딩 완료된 경우
+  return isDataLoading ? (
     <View style={styles.loadingcontainer}>
       <Text style={styles.loading}>로딩중...</Text>
     </View>
@@ -100,7 +103,6 @@ export default function Home({ navigation }) {
         >
           <FontAwesome name="exchange" size={24} color="white" />
         </TouchableOpacity>
-
         <Text style={styles.locationtext}>{location}</Text>
       </View>
       <StatusBar style="white" />
@@ -114,7 +116,7 @@ export default function Home({ navigation }) {
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
-            setLoading(true);
+            setDataLoading(true);
             getLocation();
           }}
         >

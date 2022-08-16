@@ -7,4 +7,6 @@
 <div>
 <img src="./assets/1.jpg" width="200px"/>
 <img src="./assets/2.jpg" width="200px" />
+<img src="./assets/3.jpg" width="200px" />
+<img src="./assets/4.jpg" width="200px" />
 </div>
