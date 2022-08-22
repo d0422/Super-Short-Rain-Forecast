@@ -74,6 +74,11 @@ export default {
     fontSize: 40,
     color: "white",
   },
+  locationtextver2: {
+    fontFamily: "GmarketSansTTFMedium",
+    fontSize: 30,
+    color: "white",
+  },
   section: {},
   touchIcon: {
     marginTop: 10,

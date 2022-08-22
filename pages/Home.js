@@ -10,7 +10,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import * as Location from "expo-location";
 import { API_KEY } from "../assets/api_key";
 import { useState, useEffect } from "react";
-import mapper from "../xymapper.json";
+import mapper from "../data/xymapper.json";
 import axios from "axios";
 import { useFonts } from "expo-font";
 import Weather from "./components/Weather";
@@ -103,7 +103,11 @@ export default function Home({ navigation }) {
         >
           <FontAwesome name="exchange" size={24} color="white" />
         </TouchableOpacity>
-        <Text style={styles.locationtext}>{location}</Text>
+        {location.length > 8 ? (
+          <Text style={styles.locationtextver2}>{location}</Text>
+        ) : (
+          <Text style={styles.locationtext}>{location}</Text>
+        )}
       </View>
       <StatusBar style="white" />
       <View style={styles.reload}>

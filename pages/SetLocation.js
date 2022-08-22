@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
 import style from "./components/style";
-import data from "../locationData.json";
+import data from "../data/locationData.json";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { ScrollView } from "react-native-gesture-handler";
 import { useSetRecoilState } from "recoil";
