@@ -90,12 +90,15 @@ export default {
     fontSize: 20,
     marginLeft: 5,
   },
+  lists: {
+    flex: 1,
+  },
   change: {
     transform: [{ rotate: "90deg" }],
     borderRadius: 10,
     backgroundColor: "#FF1E42",
     padding: 10,
-    marginRight: 5,
+    marginRight: 10,
   },
   si: {
     flexDirection: "row",

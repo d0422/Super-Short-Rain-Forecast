@@ -22,6 +22,7 @@ import style from "./components/style";
 import { FontAwesome } from "@expo/vector-icons";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { LocationState } from "./components/Atom";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 export default function Home({ navigation }) {
   const [location, setLocation] = useState(""); //장소 받아오기
   const [granted, setgranted] = useState(true); // 위치 권한 받아오기
@@ -90,7 +91,11 @@ export default function Home({ navigation }) {
   // 폰트 로딩 완료된 경우
   return isDataLoading ? (
     <View style={styles.loadingcontainer}>
-      <Text style={styles.loading}>로딩중...</Text>
+      <MaterialCommunityIcons
+        name="weather-cloudy-clock"
+        size={200}
+        color="white"
+      />
     </View>
   ) : (
     <View style={styles.container}>
