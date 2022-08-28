@@ -1,7 +1,7 @@
 // api데이터 가공
 export default function HourlyWeather(data) {
-  t = {};
-  result = [];
+  let t = {};
+  let result = [];
   data.forEach((i) => {
     if (i.fcstDate + i.fcstTime in t) {
       if (i.category === "LGT") {
