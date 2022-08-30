@@ -52,7 +52,7 @@ const Information = ({ navigation }) => {
               marginTop: 20,
             }}
           >
-            만든사람
+            만든 사람
           </Text>
           <Text style={styles.info}>이동길</Text>
           <TouchableOpacity
