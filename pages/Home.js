@@ -23,6 +23,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { LocationState } from "./components/Atom";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { SafeAreaView } from "react-native-safe-area-context";
 export default function Home({ navigation }) {
   const [location, setLocation] = useState(""); //장소 받아오기
   const [granted, setgranted] = useState(true); // 위치 권한 받아오기
@@ -89,79 +90,87 @@ export default function Home({ navigation }) {
     return <StatusBar></StatusBar>;
   }
   // 폰트 로딩 완료된 경우
-  return isDataLoading ? (
-    <View style={styles.loadingcontainer}>
-      <MaterialCommunityIcons
-        name="weather-cloudy-clock"
-        size={200}
-        color="white"
-      />
-    </View>
-  ) : (
-    <View style={styles.container}>
-      <View style={styles.location}>
-        <TouchableOpacity
-          style={styles.change}
-          onPress={() => {
-            navigation.navigate("SetLocation");
-          }}
-        >
-          <FontAwesome name="exchange" size={24} color="white" />
-        </TouchableOpacity>
-        {location.length > 8 ? (
-          <Text style={styles.locationtextver2}>{location}</Text>
-        ) : (
-          <Text style={styles.locationtext}>{location}</Text>
-        )}
-      </View>
-      <StatusBar style="white" />
-      <View style={styles.reload}>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate("Information");
-          }}
-        >
-          <Ionicons name="information-circle-outline" size={30} color="white" />
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            setDataLoading(true);
-            getLocation();
-          }}
-        >
-          <Ionicons name="reload" size={30} color="white" />
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            setLS("");
-          }}
-        >
-          <MaterialIcons name="location-pin" size={30} color="white" />
-        </TouchableOpacity>
-      </View>
-      <ScrollView style={styles.hours} horizontal pagingEnabled>
-        {result.map((one) => (
-          <View key={one.time} style={styles.time}>
-            <View style={styles.hourcontainer}>
-              <View style={{ alignItems: "flex-end" }}>
-                <Text style={styles.hour}>{getDisplayTime(one.time)}</Text>
-              </View>
-              <View
-                style={{
-                  flexDirection: "row",
-                  marginTop: 20,
-                  justifyContent: "center",
-                }}
-              >
-                <Text style={styles.temperture}>{one.T1H}</Text>
-                <Text style={styles.dossi}>℃</Text>
-              </View>
-              <Weather one={one}></Weather>
-            </View>
+  return (
+    <>
+      {isDataLoading ? (
+        <SafeAreaView style={styles.loadingcontainer}>
+          <MaterialCommunityIcons
+            name="weather-cloudy-clock"
+            size={200}
+            color="white"
+          />
+        </SafeAreaView>
+      ) : (
+        <SafeAreaView style={styles.container}>
+          <View style={styles.location}>
+            <TouchableOpacity
+              style={styles.change}
+              onPress={() => {
+                navigation.navigate("SetLocation");
+              }}
+            >
+              <FontAwesome name="exchange" size={24} color="white" />
+            </TouchableOpacity>
+            {location.length > 8 ? (
+              <Text style={styles.locationtextver2}>{location}</Text>
+            ) : (
+              <Text style={styles.locationtext}>{location}</Text>
+            )}
           </View>
-        ))}
-      </ScrollView>
-    </View>
+          <StatusBar style="white" />
+          <View style={styles.reload}>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("Information");
+              }}
+            >
+              <Ionicons
+                name="information-circle-outline"
+                size={30}
+                color="white"
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                setDataLoading(true);
+                getLocation();
+              }}
+            >
+              <Ionicons name="reload" size={30} color="white" />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                setLS("");
+              }}
+            >
+              <MaterialIcons name="location-pin" size={30} color="white" />
+            </TouchableOpacity>
+          </View>
+          <ScrollView style={styles.hours} horizontal pagingEnabled>
+            {result.map((one) => (
+              <View key={one.time} style={styles.time}>
+                <View style={styles.hourcontainer}>
+                  <View style={{ alignItems: "flex-end" }}>
+                    <Text style={styles.hour}>{getDisplayTime(one.time)}</Text>
+                  </View>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      marginTop: 20,
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Text style={styles.temperture}>{one.T1H}</Text>
+                    <Text style={styles.dossi}>℃</Text>
+                  </View>
+                  <Weather one={one}></Weather>
+                </View>
+              </View>
+            ))}
+          </ScrollView>
+        </SafeAreaView>
+      )}
+    </>
   );
 }
 const styles = StyleSheet.create(style);

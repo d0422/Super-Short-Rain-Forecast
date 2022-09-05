@@ -3,6 +3,7 @@ import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
 import style from "./components/style";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import * as Linking from "expo-linking";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const Information = ({ navigation }) => {
   const link = (t) => {
@@ -15,7 +16,7 @@ const Information = ({ navigation }) => {
     }
   };
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.location}>
         <Text style={styles.locationtext}>APP정보</Text>
       </View>
@@ -79,7 +80,7 @@ const Information = ({ navigation }) => {
           </TouchableOpacity>
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 const styles = StyleSheet.create(style);

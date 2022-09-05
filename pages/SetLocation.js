@@ -6,6 +6,7 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import { ScrollView } from "react-native-gesture-handler";
 import { useSetRecoilState } from "recoil";
 import { LocationState } from "./components/Atom";
+import { SafeAreaView } from "react-native-safe-area-context";
 const SetLocation = ({ navigation }) => {
   const [si, setSi] = useState("");
   const [dong, setDong] = useState([]);
@@ -21,7 +22,7 @@ const SetLocation = ({ navigation }) => {
   };
   return (
     <>
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <View style={styles.location}>
           <Text style={styles.locationtext}>위치 정하기</Text>
         </View>
@@ -54,7 +55,7 @@ const SetLocation = ({ navigation }) => {
               ))
             : null}
         </ScrollView>
-      </View>
+      </SafeAreaView>
     </>
   );
 };
