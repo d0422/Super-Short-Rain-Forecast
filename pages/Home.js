@@ -24,6 +24,7 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import { LocationState } from "./components/Atom";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Loading from "./Loading";
 export default function Home({ navigation }) {
   const [location, setLocation] = useState(""); //장소 받아오기
   const [granted, setgranted] = useState(true); // 위치 권한 받아오기
@@ -94,11 +95,7 @@ export default function Home({ navigation }) {
     <>
       {isDataLoading ? (
         <SafeAreaView style={styles.loadingcontainer}>
-          <MaterialCommunityIcons
-            name="weather-cloudy-clock"
-            size={200}
-            color="white"
-          />
+          <Loading></Loading>
         </SafeAreaView>
       ) : (
         <SafeAreaView style={styles.container}>

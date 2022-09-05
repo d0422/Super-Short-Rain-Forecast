@@ -2,7 +2,6 @@ import { Dimensions } from "react-native";
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 export default {
   loadingcontainer: {
-    backgroundColor: "#091F43",
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
