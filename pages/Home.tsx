@@ -40,7 +40,8 @@ export default function Home({ navigation }) {
   const setLS = useSetRecoilState(LocationState);
   const today = getToday();
   const time = getTime();
-  function getDisplayTime(string) {
+  let path = "";
+  function getDisplayTime(string: string) {
     const result = string.substring(8, 10) + "시";
     return result;
   }
@@ -64,7 +65,7 @@ export default function Home({ navigation }) {
       setLocation(LS);
       const temp = LS.split(" ");
       // ~시 ~동을 시와 동으로 나눠서 공백없이 이어붙임
-      path = temp[0] + temp[1];
+      let path = temp[0] + temp[1];
     } else {
       setLocation(location[0].region.concat(" " + location[0].district));
       path = location[0].region.concat(location[0].district);
@@ -76,7 +77,9 @@ export default function Home({ navigation }) {
     console.log(url);
     axios
       .get(url)
-      .then((result) => setData(result.data.response.body.items.item))
+      .then((result) => {
+        setData(result.data.response.body.items.item);
+      })
       .catch((err) => {
         console.error(err);
       });

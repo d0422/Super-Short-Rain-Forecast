@@ -6,7 +6,7 @@ import * as Linking from "expo-linking";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const Information = ({ navigation }) => {
-  const link = (t) => {
+  const link = (t: string) => {
     if (t === "기상청") {
       Linking.openURL("https://www.weather.go.kr/w/image/vshrt/rain.do");
     } else if (t === "insta") {

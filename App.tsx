@@ -4,7 +4,13 @@ import Home from "./pages/Home";
 import Information from "./pages/Information";
 import SetLocation from "./pages/SetLocation";
 import { RecoilRoot } from "recoil";
-const Stack = createStackNavigator();
+
+type RootStackParamList = {
+  Home: undefined;
+  Information: undefined;
+  SetLocation: undefined;
+};
+const Stack = createStackNavigator<RootStackParamList>();
 export default function App() {
   return (
     <RecoilRoot>

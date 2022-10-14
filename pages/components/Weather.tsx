@@ -5,8 +5,10 @@ import { StyleSheet, Text, View, ScrollView, Dimensions } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 import getWeather from "../../functions/getWeather";
 import getComment from "../../functions/getComment";
+import { IWeather } from "../../interface";
+
 const Weather = ({ one }) => {
-  const weather = getWeather(one);
+  const weather: IWeather = getWeather(one);
   const badnum = Math.floor(
     0.81 * parseInt(one.T1H) +
       0.01 * parseInt(one.REH) * (0.99 * parseInt(one.T1H) - 14.3) +

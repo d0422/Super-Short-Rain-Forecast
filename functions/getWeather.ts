@@ -1,5 +1,7 @@
-export default function getWeather(one) {
-  let weather = "";
+import { IWeather } from "../interface";
+
+export default function getWeather(one): IWeather {
+  let weather: IWeather = "sunny-outline";
   switch (one.PTY) {
     case "0":
       if (one.SKY === "1") {

@@ -1,4 +1,4 @@
-export default function getComment(one, badnum) {
+export default function getComment(one, badnum:number) {
   let comment = "";
   const rain = parseInt(one.RN1.split("m")[0].split("~")[0]);
   if (badnum >= 75 && badnum <= 80) {
