@@ -1,7 +1,9 @@
+import Idata, { IMakeData } from "../interface";
+
 // api데이터 가공
-export default function HourlyWeather(data) {
+export default function HourlyWeather(data: Idata[]) {
   let t = {};
-  let result = [];
+  let result: IMakeData[] = [];
   data.forEach((i) => {
     if (i.fcstDate + i.fcstTime in t) {
       if (i.category === "LGT") {

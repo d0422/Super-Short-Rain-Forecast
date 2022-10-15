@@ -20,12 +20,15 @@ import HourlyWeather from "../functions/HourlyWeather";
 import { Ionicons } from "@expo/vector-icons";
 import style from "./components/style";
 import { FontAwesome } from "@expo/vector-icons";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { LocationState } from "./components/Atom";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Loading from "./Loading";
-export default function Home({ navigation }) {
+import { StackScreenProps } from "@react-navigation/stack";
+import { HomeScreenProps } from "../interface";
+
+export default function Home({ navigation }: HomeScreenProps) {
   const [location, setLocation] = useState(""); //장소 받아오기
   const [granted, setgranted] = useState(true); // 위치 권한 받아오기
   const [data, setData] = useState([]);
@@ -35,9 +38,7 @@ export default function Home({ navigation }) {
     GmarketSansTTFMedium: require("../assets/fonts/GmarketSansTTFMedium.ttf"),
     GmarketSansTTFLight: require("../assets/fonts/GmarketSansTTFLight.ttf"),
   }); // 폰트 불러오기
-  const LS = useRecoilValue(LocationState);
-  // recoil LocationState의 줄임말
-  const setLS = useSetRecoilState(LocationState);
+  const [LS, setLS] = useRecoilState(LocationState);
   const today = getToday();
   const time = getTime();
   let path = "";
@@ -65,12 +66,12 @@ export default function Home({ navigation }) {
       setLocation(LS);
       const temp = LS.split(" ");
       // ~시 ~동을 시와 동으로 나눠서 공백없이 이어붙임
-      let path = temp[0] + temp[1];
+      path = temp[0] + temp[1];
+      console.log(path);
     } else {
       setLocation(location[0].region.concat(" " + location[0].district));
       path = location[0].region.concat(location[0].district);
     }
-    console.log(path);
     const x = mapper[path][0];
     const y = mapper[path][1];
     const url = `http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtFcst?serviceKey=${API_KEY}&pageNo=1&numOfRows=1000&dataType=JSON&base_date=${today}&base_time=${time}&nx=${x}&ny=${y}`;
@@ -117,7 +118,7 @@ export default function Home({ navigation }) {
               <Text style={styles.locationtext}>{location}</Text>
             )}
           </View>
-          <StatusBar style="white" />
+          <StatusBar style="light" />
           <View style={styles.reload}>
             <TouchableOpacity
               onPress={() => {

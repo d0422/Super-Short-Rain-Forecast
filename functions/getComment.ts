@@ -1,4 +1,6 @@
-export default function getComment(one, badnum:number) {
+import { IMakeData } from "../interface";
+
+export default function getComment(one: IMakeData, badnum: number) {
   let comment = "";
   const rain = parseInt(one.RN1.split("m")[0].split("~")[0]);
   if (badnum >= 75 && badnum <= 80) {

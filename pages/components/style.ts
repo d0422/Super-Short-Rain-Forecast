@@ -1,6 +1,8 @@
 import { Dimensions } from "react-native";
+import { ViewStyle, TextStyle } from "react-native";
+import { styleType } from "../../interface";
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
-export default {
+const result: styleType = {
   loadingcontainer: {
     flex: 1,
     alignItems: "center",
@@ -28,7 +30,6 @@ export default {
     justifyContent: "center",
     flexDirection: "row",
     flex: 0.4,
-    fontSize: 30,
   },
   hour: {
     fontFamily: "GmarketSansTTFBold",
@@ -45,7 +46,6 @@ export default {
   },
   time: {
     width: SCREEN_WIDTH,
-    fontSize: 20,
   },
   hourcontainer: {
     flex: 1,
@@ -112,3 +112,4 @@ export default {
     fontSize: 30,
   },
 };
+export default result;

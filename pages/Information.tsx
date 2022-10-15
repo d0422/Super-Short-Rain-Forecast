@@ -4,8 +4,9 @@ import style from "./components/style";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import * as Linking from "expo-linking";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { InformationProps } from "../interface";
 
-const Information = ({ navigation }) => {
+const Information = ({ navigation }: InformationProps) => {
   const link = (t: string) => {
     if (t === "기상청") {
       Linking.openURL("https://www.weather.go.kr/w/image/vshrt/rain.do");

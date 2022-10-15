@@ -7,16 +7,18 @@ import { ScrollView } from "react-native-gesture-handler";
 import { useSetRecoilState } from "recoil";
 import { LocationState } from "./components/Atom";
 import { SafeAreaView } from "react-native-safe-area-context";
-const SetLocation = ({ navigation }) => {
+import { SetLocationProps } from "../interface";
+
+const SetLocation = ({ navigation }: SetLocationProps) => {
   const [si, setSi] = useState("");
   const [dong, setDong] = useState([]);
   const SI = Object.keys(data);
   const setLocationState = useSetRecoilState(LocationState);
-  const setData = (d) => {
+  const setData = (d: string) => {
     setSi(d);
     setDong(data[d]);
   };
-  const setLocationData = (d) => {
+  const setLocationData = (d: string) => {
     setLocationState(si + " " + d);
     navigation.navigate("Home");
   };

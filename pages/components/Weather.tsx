@@ -17,7 +17,7 @@ const Weather = ({ one }) => {
   const comment = getComment(one, badnum);
   return (
     <View style={styles.weather}>
-      <Ionicons name={weather} size={170} color="black" />
+      <Ionicons name={weather as any} size={170} color="black" />
       <View style={styles.entire}>
         {one.PTY === "5" ? <Text style={styles.water}>소나기</Text> : null}
         {one.RN1 === "강수없음" ? (
