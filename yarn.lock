@@ -1804,6 +1804,19 @@
   "resolved" "https://registry.npmjs.org/@sinclair/typebox/-/typebox-0.24.46.tgz"
   "version" "0.24.46"
 
+"@tanstack/query-core@4.12.0":
+  "integrity" "sha512-KEiFPNLMFByhNL2s6RBFL6Z5cNdwwQzFpW/II3GY+rEuQ343ZEoVyQ48zlUXXkEkbamQFIFg2onM8Pxf0Yo01A=="
+  "resolved" "https://registry.npmjs.org/@tanstack/query-core/-/query-core-4.12.0.tgz"
+  "version" "4.12.0"
+
+"@tanstack/react-query@^4.12.0":
+  "integrity" "sha512-prchV1q+CJ0ZVo8Rts2cOF3azDfQizZZySmH6XXsXRcPTbir0sgb9fp0vY/5l5ZkSYjTvWt/OL8WQhAhYMSvrA=="
+  "resolved" "https://registry.npmjs.org/@tanstack/react-query/-/react-query-4.12.0.tgz"
+  "version" "4.12.0"
+  dependencies:
+    "@tanstack/query-core" "4.12.0"
+    "use-sync-external-store" "^1.2.0"
+
 "@types/graceful-fs@^4.1.2":
   "integrity" "sha512-anKkLmZZ+xm4p8JWBf4hElkM4XR+EZeA2M9BAkkTldmcyDY4mbdIJnRghDJH3Ov5ooY7/UAoENtmdMSkaAd7Cw=="
   "resolved" "https://registry.npmjs.org/@types/graceful-fs/-/graceful-fs-4.1.5.tgz"
@@ -5782,7 +5795,7 @@
     "shell-quote" "^1.6.1"
     "ws" "^7"
 
-"react-dom@>= 16.8.0", "react-dom@>=17.0.1", "react-dom@17.0.2":
+"react-dom@^16.8.0 || ^17.0.0 || ^18.0.0", "react-dom@>= 16.8.0", "react-dom@>=17.0.1", "react-dom@17.0.2":
   "integrity" "sha512-s4h96KtLDUQlsENhMn1ar8t2bEa+q/YAtj8pPPdIjPDGBDIVNsrD9aXNWqspUe6AzKCIG0C1HZZLqLV7qpOBGA=="
   "resolved" "https://registry.npmjs.org/react-dom/-/react-dom-17.0.2.tgz"
   "version" "17.0.2"
@@ -5949,7 +5962,7 @@
     "object-assign" "^4.1.1"
     "react-is" "^16.12.0 || ^17.0.0"
 
-"react@*", "react@^16.0.0 || ^17.0.0", "react@^16.8.0 || ^17.0.0", "react@>= 16.8.0", "react@>=16.0", "react@>=16.13.1", "react@>=17.0.0", "react@>=17.0.1", "react@17.0.2":
+"react@*", "react@^16.0.0 || ^17.0.0", "react@^16.8.0 || ^17.0.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@>= 16.8.0", "react@>=16.0", "react@>=16.13.1", "react@>=17.0.0", "react@>=17.0.1", "react@17.0.2":
   "integrity" "sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA=="
   "resolved" "https://registry.npmjs.org/react/-/react-17.0.2.tgz"
   "version" "17.0.2"
@@ -7080,6 +7093,11 @@
   "version" "1.5.1"
   dependencies:
     "object-assign" "^4.1.1"
+
+"use-sync-external-store@^1.2.0":
+  "integrity" "sha512-eEgnFxGQ1Ife9bzYs6VLi8/4X6CObHMw9Qr9tPY43iKwsPw8xE8+EFsf/2cFZ5S3esXgpWgtSCtLNS41F+sKPA=="
+  "resolved" "https://registry.npmjs.org/use-sync-external-store/-/use-sync-external-store-1.2.0.tgz"
+  "version" "1.2.0"
 
 "use@^3.1.0":
   "integrity" "sha512-cwESVXlO3url9YWlFW/TA9cshCEhtu7IKJ/p5soJ/gGpj7vbvFrAY/eIioQ6Dw23KjZhYgiIo8HOs1nQ2vr/oQ=="

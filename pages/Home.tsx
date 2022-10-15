@@ -1,154 +1,62 @@
 import { StatusBar } from "expo-status-bar";
-import {
-  StyleSheet,
-  Text,
-  View,
-  ScrollView,
-  TouchableOpacity,
-} from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
-import * as Location from "expo-location";
-import { API_KEY } from "../assets/api_key";
+import { StyleSheet, Text, View, ScrollView } from "react-native";
+
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { useState, useEffect } from "react";
-import mapper from "../data/xymapper.json";
 import axios from "axios";
-import { useFonts } from "expo-font";
+import { SafeAreaView } from "react-native-safe-area-context";
+
+import { API_KEY } from "../assets/api_key";
+
+//components
 import Weather from "./components/Weather";
+import { LocationState } from "./components/Atom";
+import style from "./components/style";
+import Loading from "./Loading";
+import Locations from "./components/Locations";
+import ControlButtons from "./components/ControlButtons";
+//functions
 import getTime from "../functions/getTime";
 import getToday from "../functions/getToday";
+import getDisplayTime from "../functions/getDisplayTime";
 import HourlyWeather from "../functions/HourlyWeather";
-import { Ionicons } from "@expo/vector-icons";
-import style from "./components/style";
-import { FontAwesome } from "@expo/vector-icons";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { LocationState } from "./components/Atom";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { SafeAreaView } from "react-native-safe-area-context";
-import Loading from "./Loading";
-import { StackScreenProps } from "@react-navigation/stack";
-import { HomeScreenProps } from "../interface";
-
+import { HomeScreenProps, IMakeData } from "../interface";
+import getLocationData from "../functions/getLocationData";
+import { useQuery } from "@tanstack/react-query";
+import getData from "../functions/apis";
+interface Iprops {
+  data: IMakeData[];
+  isLoading: boolean;
+}
 export default function Home({ navigation }: HomeScreenProps) {
-  const [location, setLocation] = useState(""); //장소 받아오기
-  const [granted, setgranted] = useState(true); // 위치 권한 받아오기
-  const [data, setData] = useState([]);
-  const [isDataLoading, setDataLoading] = useState(true);
-  const [fontLoaded] = useFonts({
-    GmarketSansTTFBold: require("../assets/fonts/GmarketSansTTFBold.ttf"),
-    GmarketSansTTFMedium: require("../assets/fonts/GmarketSansTTFMedium.ttf"),
-    GmarketSansTTFLight: require("../assets/fonts/GmarketSansTTFLight.ttf"),
-  }); // 폰트 불러오기
-  const [LS, setLS] = useRecoilState(LocationState);
-  const today = getToday();
-  const time = getTime();
-  let path = "";
-  function getDisplayTime(string: string) {
-    const result = string.substring(8, 10) + "시";
-    return result;
-  }
-  const getLocation = async () => {
-    setDataLoading(true);
-    const { granted } = await Location.requestForegroundPermissionsAsync();
-    if (!granted) {
-      setgranted(false);
+  const [defaultLocation, setDefaultLocation] = useRecoilState(LocationState);
+  const { data: locationDatas } = useQuery(
+    ["locationdata", defaultLocation],
+    () => getLocationData(defaultLocation)
+  ); //위치정보 받아오기
+  const { data, isLoading: isDataLoading }: Iprops = useQuery(
+    ["data", defaultLocation],
+    () => getData(locationDatas[0]),
+    {
+      enabled: !!locationDatas,
     }
-    const {
-      coords: { latitude, longitude },
-    } = await Location.getCurrentPositionAsync({ accuracy: 5 });
-    const location = await Location.reverseGeocodeAsync(
-      {
-        latitude,
-        longitude,
-      },
-      { useGoogleMaps: false }
-    );
-    if (LS) {
-      setLocation(LS);
-      const temp = LS.split(" ");
-      // ~시 ~동을 시와 동으로 나눠서 공백없이 이어붙임
-      path = temp[0] + temp[1];
-      console.log(path);
-    } else {
-      setLocation(location[0].region.concat(" " + location[0].district));
-      path = location[0].region.concat(location[0].district);
-    }
-    const x = mapper[path][0];
-    const y = mapper[path][1];
-    const url = `http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtFcst?serviceKey=${API_KEY}&pageNo=1&numOfRows=1000&dataType=JSON&base_date=${today}&base_time=${time}&nx=${x}&ny=${y}`;
-    console.log(url);
-    axios
-      .get(url)
-      .then((result) => {
-        setData(result.data.response.body.items.item);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-    setDataLoading(false);
-  };
-  useEffect(() => {
-    getLocation();
-  }, [LS]);
-  const result = HourlyWeather(data); // 시간별 데이터 변환
-  // 폰트가 로딩되지 않는 경우
-  if (!fontLoaded) {
-    return <StatusBar></StatusBar>;
-  }
-  // 폰트 로딩 완료된 경우
+  ); //받아온 위치를 기반으로 날씨 받아오기
   return (
     <>
       {isDataLoading ? (
         <SafeAreaView style={styles.loadingcontainer}>
-          <Loading></Loading>
+          <Loading />
         </SafeAreaView>
       ) : (
         <SafeAreaView style={styles.container}>
-          <View style={styles.location}>
-            <TouchableOpacity
-              style={styles.change}
-              onPress={() => {
-                navigation.navigate("SetLocation");
-              }}
-            >
-              <FontAwesome name="exchange" size={24} color="white" />
-            </TouchableOpacity>
-            {location.length > 8 ? (
-              <Text style={styles.locationtextver2}>{location}</Text>
-            ) : (
-              <Text style={styles.locationtext}>{location}</Text>
-            )}
-          </View>
           <StatusBar style="light" />
-          <View style={styles.reload}>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate("Information");
-              }}
-            >
-              <Ionicons
-                name="information-circle-outline"
-                size={30}
-                color="white"
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                setDataLoading(true);
-                getLocation();
-              }}
-            >
-              <Ionicons name="reload" size={30} color="white" />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                setLS("");
-              }}
-            >
-              <MaterialIcons name="location-pin" size={30} color="white" />
-            </TouchableOpacity>
-          </View>
+          <Locations navigation={navigation} location={locationDatas[1]} />
+          <ControlButtons
+            navigation={navigation}
+            getLocation={setDefaultLocation}
+          />
           <ScrollView style={styles.hours} horizontal pagingEnabled>
-            {result.map((one) => (
+            {data.map((one) => (
               <View key={one.time} style={styles.time}>
                 <View style={styles.hourcontainer}>
                   <View style={{ alignItems: "flex-end" }}>
